@@ -1,0 +1,21 @@
+.form {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 12px;
+  text-align: left;
+  color: white;
+  border-radius: 12px;
+  margin: 1rem auto;
+  width: 90%;
+  max-width: 40rem;
+}
+.label {
+  color: black;
+  font-weight: bold;
+}
+.input {
+  width: 100%;
+}
+
