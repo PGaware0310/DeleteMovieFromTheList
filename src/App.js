@@ -9,7 +9,7 @@ function App() {
   const [error, setError] = useState(null);
   const [retryTimer, setRetryTimer] = useState(null);
 
-  const fetchMoviesHandler = useCallback(async () => {
+  const fetchMoviesHandlers = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     let shouldRetry = true;
@@ -48,8 +48,8 @@ function App() {
   },[]);
 
   useEffect(() => {
-    fetchMoviesHandler();
-  }, [fetchMoviesHandler]);
+    fetchMoviesHandlers();
+  }, [fetchMoviesHandlers]);
 
   const cancelRetryHandler = () => {
     clearTimeout(retryTimer);
