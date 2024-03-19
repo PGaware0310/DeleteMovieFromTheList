@@ -1,21 +1,26 @@
+
 .form {
-  margin: 1rem;
-  padding: 1rem;
-  background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 12px;
-  text-align: left;
-  color: white;
-  border-radius: 12px;
+  margin: 1rem 0;
   margin: 1rem auto;
   width: 90%;
   max-width: 40rem;
 }
-.label {
+.form label {
   color: black;
   font-weight: bold;
+  text-align: left;
 }
-.input {
+.form input {
+  border: 1px solid #ccc;
   width: 100%;
+  padding: 0.2rem;
+  border-radius: 12px;
 }
-
+.form textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  padding: 0.2rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+}

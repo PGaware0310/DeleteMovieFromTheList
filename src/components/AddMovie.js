@@ -1,61 +1,48 @@
-import { useState } from "react";
+import { useRef } from "react";
 import classes from "./AddMovie.module.css";
-const AddMovie = () => {
-  const [newMovies, setNewMovies] = useState({
-    title: "",
-    description: "",
-    date: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewMovies((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+const AddMovie = (props) => {
+  const titleRef = useRef("");
+  const openingTextRef = useRef("");
+  const releaseDateRef = useRef("");
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(newMovies);
-    setNewMovies("");
+
+    //Validations
+
+    const movie = {
+      title: titleRef.current.value,
+      openingText: openingTextRef.current.value,
+      releaseDate: releaseDateRef.current.value,
+    };
+    props.onAddMovie(movie);
   };
+  
   return (
-    <form className={classes.form}>
-      <label className={classes.label}>Title</label>
-      <br />
-      <input
-        className={classes.input}
-        type="text"
-        name="title"
-        value={handleChange.title}
-        onChange={handleChange}
-      />
-      <br />
-      <label className={classes.label}>Opening Text</label>
-      <br />
-      <input
-        className={classes.input}
-        type="text"
-        name="openingText"
-        rows="4"
-        cols="50"
-        value={handleChange.description}
-        onChange={handleChange}
-      />
-      <br />
-      <label className={classes.label}>Release Date</label>
-      <br />
-      <input
-        className={classes.input}
-        type="date"
-        name="releaseDate"
-        value={handleChange.date}
-        onChange={handleChange}
-      />
-      <br />
-      <br />
-      <button onClick={onSubmitHandler}>Add Movie</button>
+    <form onSubmit={onSubmitHandler}>
+      <div className={classes.form}>
+        <label>Title</label>
+        <input type="text" id="title" ref={titleRef} />
+      </div>
+      <div className={classes.form}>
+        <label>Opening Text</label>
+        <textarea
+          id="openingText"
+          rows="4"
+          cols="50"
+          ref={openingTextRef}
+        ></textarea>
+      </div>
+      <div className={classes.form}>
+        <label>Release Date</label>
+        <input
+          className={classes.input}
+          type="date"
+          id="releaseDate"
+          ref={releaseDateRef}
+        />
+      </div>
+      <button>Add Movie</button>
     </form>
   );
 };

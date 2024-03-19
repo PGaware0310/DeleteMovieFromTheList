@@ -18,3 +18,9 @@
   margin: 0;
   font-size: 1rem;
 }
+.movie button{
+  background-color: rgb(230, 35, 35);
+}
+.movie button:hover{
+  background-color: rgb(250, 31, 31);
+}

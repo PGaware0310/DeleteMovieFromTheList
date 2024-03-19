@@ -17,22 +17,24 @@ function App() {
 
     while (shouldRetry) {
       try {
-        const response = await fetch("https://swapi.dev/api/films/");
+        const response = await fetch(
+          "https://react-http-fetchmovie-default-rtdb.firebaseio.com/movies.json"
+        );
         if (!response.ok) {
           throw new Error("Something went wrong...Retrying");
         }
 
         const data = await response.json();
-
-        const transformedMovies = data.results.map((movieData) => {
-          return {
-            id: movieData.episode_id,
-            title: movieData.title,
-            openingText: movieData.opening_crawl,
-            releaseDate: movieData.release_date,
-          };
-        });
-        setMovies(transformedMovies);
+        const loadedMovies = [];
+        for (const key in data) {
+          loadedMovies.push({
+            id: key,
+            title: data[key].title,
+            openingText: data[key].openingText,
+            releaseDate: data[key].releaseDate,
+          });
+        }
+        setMovies(loadedMovies);
         shouldRetry = false;
       } catch (error) {
         setError(error.message);
@@ -46,11 +48,30 @@ function App() {
     }
 
     setIsLoading(false);
-  },[]);
+  }, []);
 
   useEffect(() => {
     fetchMoviesHandlers();
   }, [fetchMoviesHandlers]);
+
+  const addMovieHandler = async (movie) => {
+    const response = await fetch(
+      "https://react-http-fetchmovie-default-rtdb.firebaseio.com/movies.json",
+      {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+  };
+
+  const deleteMovieHandler=(id)=>{
+    setMovies((prevMovie)=>prevMovie.filter((movie)=>movie.id!==id));
+  }
 
   const cancelRetryHandler = () => {
     clearTimeout(retryTimer);
@@ -59,7 +80,9 @@ function App() {
 
   return (
     <React.Fragment>
-    <AddMovie/>
+      <section>
+        <AddMovie onAddMovie={addMovieHandler} />
+      </section>
       <section>
         <button onClick={fetchMoviesHandlers}>Fetch Movies</button>
         {isLoading && (
@@ -67,7 +90,7 @@ function App() {
         )}
       </section>
       <section>
-        {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
+        {!isLoading && movies.length > 0 && <MoviesList movies={movies} onDeleteMovie={deleteMovieHandler}/>}
         {isLoading && <p>Loading...</p>}
         {!isLoading && movies.length === 0 && !error && (
           <p>Movies not Found.</p>
